@@ -1,27 +1,19 @@
-function Drawer() {
+function Drawer({onClose,items=[] }) {
     return (
-        <div style={{ display: 'none' }} className="overlay">
+        <div  className="overlay">
             <div className="drawer ">
-                <h2 className="mb-30 d-flex justify-between ">Carzina <img className="removeBtn cu-p" src="/img/Btn-remove.svg" alt="Remove Button" /> </h2>
+                <h2 className="mb-30 d-flex justify-between ">Carzina <img onClick={onClose} className="removeBtn cu-p" src="/img/Btn-remove.svg" alt="Remove Button" /> </h2>
                 <div className="items">
-
+                  {items.map((obj) => (
                     <div className="cartItem d-flex align-center mb-20">
-                        <div style={{ backgroundImage: 'url(/img/galosi/1.jpg)' }} className="cartItemImg"></div>
+                        <div style={{ backgroundImage: `url(${obj.url})` }} className="cartItemImg"></div>
                         <div className="mr-20 flex">
-                            <p className="mb-5">Мужские Кроссовки Nike Blazer Mid Suede</p>
-                            <b>dohuia</b>
+                            <p className="mb-5">{obj.title}</p>
+                            <b>{obj.price} lei</b>
                         </div>
                         <img className="removeBtn" src="/img/Btn-remove.svg" alt="Remove Button" />
                     </div>
-
-                    <div className="cartItem d-flex align-center mb-20">
-                        <div style={{ backgroundImage: 'url(/img/galosi/1.jpg)' }} className="cartItemImg"></div>
-                        <div className="mr-20 flex">
-                            <p className="mb-5">Мужские Кроссовки Nike Blazer Mid Suede</p>
-                            <b>dohuia</b>
-                        </div>
-                        <img className="removeBtn" src="/img/Btn-remove.svg" alt="Remove Button" />
-                    </div>
+                    ))}
 
                 </div>
                 <div className="cartTotalBlock">

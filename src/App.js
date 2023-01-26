@@ -1,19 +1,34 @@
 import Card from './components/Card';
 import Header from './components/Header';
 import Drawer from './components/Drawer';
+import React from 'react';
 
-const arr = [
-  { title: 'Мужские Кроссовки Nike Blazer Mid Suede', price: 12999, url: '/img/galosi/1.jpg' },
-  { title: 'Мужские Кроссовки Nike Air Max 270', price: 15999, url: '/img/galosi/2.jpg' },
-  { title: 'Мужские Кроссовки Nike Blazer Mid Suede', price: 8499, url: '/img/galosi/3.jpg' },
-  { title: 'Кроссовки Puma X Aka Boku Future Rider', price: 8999, url: '/img/galosi/4.jpg' },
-];
+
 
 function App() {
+  const [cartOpened, setCartOpened] = React.useState(false);
+  const [items,setItems] = React.useState([])
+  const [cartItems,setCartItems] = React.useState([])
+  
+  React.useEffect(()=>{
+    fetch('https://63d2be3e4abff888341229b8.mockapi.io/items')
+    .then((res) =>{
+      return res.json();
+    })
+    .then((json) =>{
+      setItems(json);
+    })
+  });
+
+  const onAddToCard = (obj) =>{
+    setCartItems(prev =>[...prev,obj]);
+  };
+ 
+
   return (
     <div className="wrapper clear">
-      <Drawer />  
-      <Header />
+      {cartOpened && <Drawer items={cartItems} onClose={() => setCartOpened(false)} />}
+      <Header onClickCart={() => setCartOpened(true)} />
       <div className="content p-40">
         <div className="d-flex align-center mb-40 justify-between" >
           <h1>All Sneakers</h1>
@@ -23,13 +38,15 @@ function App() {
           </div>
         </div>
 
-        <div className="d-flex">  
+        <div className="d-flex flex-wrap">
           {
-            arr.map((obj) => (
+            items.map((item) => (
               <Card
-                title={obj.title}
-                url={obj.url}
-                price={obj.price}
+                title={item.title}
+                url={item.url}
+                price={item.price}
+                onClickFavorite={() => console.log('Add to favorite')}
+                onClickAdd={(obj) =>onAddToCard(obj)}
               />
             ))
           }
